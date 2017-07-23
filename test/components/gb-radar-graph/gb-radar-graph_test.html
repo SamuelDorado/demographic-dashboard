@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>gb-radar-graph test</title>
+
+    <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../../src/components/gb-radar-graph/gb-radar-graph.html">
+</head>
+
+<body>
+
+    <test-fixture id="basic-fixture">
+        <template>
+        <gb-radar-graph></gb-radar-graph>
+      </template>
+    </test-fixture>
+
+    <script>
+        suite('gb-radar-graph', function() {
+            var element, constants;
+            setup(function() {
+                element = fixture('basic-fixture');
+                element.labels = {
+                    "population": "Poblacion",
+                    "unemployment": "Desempleo",
+                    "commercial_activity": "Actividad comercial",
+                    "wealth": "Riqueza",
+                    "traffic": "Trafico Peatonal",
+                    "foreigners": "Extranjeros",
+                    "dependency_rate": "Tasa de dependencia "
+                }
+                element.constants = constants;
+                element.data = [{
+                    "population": "4",
+                    "unemployment": "7",
+                    "commercial_activity": "1",
+                    "wealth": "3",
+                    "traffic": "2",
+                    "foreigners": "2",
+                    "dependency_rate": "6"
+                }]
+                element.dataLegend = ["Reference Area"]
+
+            });
+            test('_dataChanged computes the data property and generates _computedGrpahData', function() {
+                var _costantComputed = [
+                    [{
+                        axis: "Poblacion",
+                        value: 0.4
+                    }, {
+                        axis: "Desempleo",
+                        value: 0.7
+                    }, {
+                        axis: "Actividad comercial",
+                        value: 0.1
+                    }, {
+                        axis: "Riqueza",
+                        value: 0.3
+                    }, {
+                        axis: "Trafico Peatonal",
+                        value: 0.2
+                    }, {
+                        axis: "Extranjeros",
+                        value: 0.2
+                    }, {
+                        axis: "Tasa de dependencia ",
+                        value: 0.6
+                    }]
+                ]
+                expect(element._computedGrpahData).to.deep.equal(_costantComputed);
+            })
+        });
+    </script>
+
+</body>
+
+</html>

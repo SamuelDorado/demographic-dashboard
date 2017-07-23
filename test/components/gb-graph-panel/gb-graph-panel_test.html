@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>gb-graph-panel test</title>
+
+    <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../../src/components/gb-graph-panel/gb-graph-panel.html">
+</head>
+
+<body>
+
+    <test-fixture id="basic-fixture">
+        <template>
+        <gb-graph-panel></gb-graph-panel>
+      </template>
+    </test-fixture>
+
+    <script>
+        suite('gb-graph-panel', function() {
+            var element, constants;
+            setup(function() {
+                element = fixture('basic-fixture');
+                constants = {
+                    "genGraphComp": "General graph comparision",
+                    "indexLabels": {
+                        "population": "Poblacion",
+                        "unemployment": "Desempleo",
+                        "commercial_activity": "Actividad comercial",
+                        "wealth": "Riqueza",
+                        "traffic": "Trafico Peatonal",
+                        "foreigners": "Extranjeros",
+                        "dependency_rate": "Tasa de dependencia "
+                    }
+                }
+                element.constants = constants;
+                element.data = [{
+                    "population": "4",
+                    "unemployment": "7",
+                    "commercial_activity": "1",
+                    "wealth": "3",
+                    "traffic": "2",
+                    "foreigners": "2",
+                    "dependency_rate": "6"
+                }]
+                element.dataLegend = ["Reference Area"]
+
+            });
+            test('properties are binding correctly', function() {
+                var elementShadowRoot = element.shadowRoot;
+                var panelTitle = elementShadowRoot.querySelector('.panel-title--container h1');
+                assert.equal(panelTitle.innerText, 'General graph comparision')
+                var grphElement = elementShadowRoot.querySelector('gb-radar-graph');
+                expect(grphElement.data).to.deep.equal(element.data);
+                expect(grphElement.dataLegend).to.deep.equal(element.dataLegend);
+                expect(grphElement.labels).to.deep.equal(element.constants.indexLabels);
+            })
+        });
+    </script>
+
+</body>
+
+</html>
