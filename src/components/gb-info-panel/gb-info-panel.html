@@ -1,0 +1,71 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../gb-info-panel-item/gb-info-panel-item.html">
+
+<dom-module id="gb-info-panel">
+    <template>
+    <style>         
+        :host {
+            @apply(--layout-vertical);
+            @apply(--layout-center-justified);
+            background:#F6F6F6;
+            padding: 2em 1em;
+        }
+        gb-info-panel-item.ref-area{
+            --item-main-color: #BC302B;
+        }
+        gb-info-panel-item.comp-area-1{
+            --item-main-color: #EB8000;
+        }
+        gb-info-panel-item.comp-area-2{
+            --item-main-color: #1696A3;
+        }
+        @media only screen and (min-width: 760px) {
+            :host {
+                @apply(--layout-horizontal);
+            }
+        }
+    </style>
+        <template is="dom-repeat" items="[[data]]">
+            <gb-info-panel-item class$="{{computeClass(item.is_reference,index)}}"
+                                item-title="[[computeTitle(item.is_reference,index)]]"
+                                item-content="[[item.population]]"
+                                sub-content="[[constants.population]]"
+                                under-content="[[item.address]]"></gb-info-panel-item>
+        </template>
+    </template>
+
+    <script>
+        /**
+         * `gb-info-panel`
+         * 
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class GbInfoPanel extends Polymer.Element {
+            static get is() {
+                return 'gb-info-panel';
+            }
+            static get properties() {
+                return {
+                    data: {
+                        type: Array
+                    },
+                    constants: {
+                        type: Object
+                    }
+                };
+            }
+            computeTitle(isRef, index) {
+                return (isRef) ? this.constants.refArea : `${this.constants.compArea} ${index}`
+            }
+            computeClass(isRef, index) {
+                return (isRef) ? 'ref-area' : `comp-area-${index}`
+            }
+        }
+
+        window.customElements.define(GbInfoPanel.is, GbInfoPanel);
+    </script>
+</dom-module>

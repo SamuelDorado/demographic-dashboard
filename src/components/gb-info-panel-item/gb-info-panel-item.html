@@ -1,0 +1,108 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+
+
+<dom-module id="gb-info-panel-item">
+    <template>
+    <style is="custom-style">
+        :host {
+            @apply(--layout-vertical);
+            background: #F6F6F6;
+            border: 2px solid var(--item-main-color,#BC302B);
+            text-align: center;
+            font-weight: lighter; 
+            margin-top:1em;
+            width:100%;
+        }
+        .title{
+            color: var(--item-main-color,#BC302B);
+            text-transform:uppercase;
+            font-size: 1em;
+            letter-spacing: 0.2em;  
+        }
+        .title h1{
+            margin: 1em 0 0.2em 0;
+            font-weight: normal;
+        }
+        .content{
+            background:   var(--item-main-color,#BC302B);
+            color: #F6F6F6;
+            padding: 1em 0;
+        }
+        .content span{
+            font-size: 3em;
+        }
+        .content p{
+            font-size: 0.9em;
+            margin: 0;  
+        }
+        .under-content{
+            padding: 1em;
+            padding-bottom: 0;
+            height: 75px;
+            max-height: 75px;
+        }
+    @media only screen and (min-width: 760px) {
+      :host {
+        border:0;
+        border-bottom: 2px solid var(--item-main-color,#BC302B);
+        margin:0 1px;
+      }
+    }
+    </style>
+    <div class="title">
+        <h1>[[itemTitle]]</h1>
+    </div>
+    <div class="content">
+        <span>
+            [[itemContent]]
+        </span>
+        <p>
+            [[subContent]]
+        </p>
+    </div>
+    <div class="under-content">
+        <span>
+            [[underContent]]
+        </span>
+    </div>
+  </template>
+
+    <script>
+        /**
+         * `gb-info-panel-item`
+         * 
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class GbInfoPanelItem extends Polymer.Element {
+            static get is() {
+                return 'gb-info-panel-item';
+            }
+            static get properties() {
+                return {
+                    itemTitle: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    itemContent: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    subContent: {
+                        type: String,
+                        reflectToAttribute: true
+                    },
+                    underContent: {
+                        type: String,
+                        reflectToAttribute: true
+                    }
+                };
+            }
+        }
+
+        window.customElements.define(GbInfoPanelItem.is, GbInfoPanelItem);
+    </script>
+</dom-module>

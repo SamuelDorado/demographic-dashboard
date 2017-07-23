@@ -1,0 +1,93 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../components/gb-info-panel/gb-info-panel.html">
+<link rel="import" href="../components/gb-graph-panel/gb-graph-panel.html">
+
+<dom-module id="dashboard-app">
+    <template>
+    <style>
+      :host {
+        display: block;
+        font-family: Helvetica, Arial, sans-serif;
+      }
+    </style>
+        <iron-ajax auto
+            url="http://localhost:3000/results"
+            handle-as="json"
+            last-response="{{resultsResponse}}"></iron-ajax>
+        <gb-info-panel constants="[[constants]]" data="[[getInfoPanelData(resultsResponse)]]"></gb-info-panel>
+        <gb-graph-panel constants="[[constants]]" 
+                        data="[[getGraphicPanelData(resultsResponse)]]" 
+                        data-legend="[[getGraphicPanelDataLegend(resultsResponse)]]"></gb-graph-panel>
+  </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class DashboardApp extends Polymer.Element {
+            static get is() {
+                return 'dashboard-app';
+            }
+            static get properties() {
+                return {
+                    constants: {
+                        type: Object,
+                        value: () => {
+                            return {
+                                "population": "Population",
+                                "refArea": "Reference area",
+                                "compArea": "Compared area",
+                                "genGraphComp": "General graph comparision",
+                                "indexLabels": {
+                                    "population": "Poblacion",
+                                    "unemployment": "Desempleo",
+                                    "commercial_activity": "Actividad comercial",
+                                    "wealth": "Riqueza",
+                                    "traffic": "Trafico Peatonal",
+                                    "foreigners": "Extranjeros",
+                                    "dependency_rate": "Tasa de dependencia "
+                                }
+                            }
+                        }
+                    },
+                    resultsResponse: {
+                        type: Object
+                    }
+                };
+            }
+            getInfoPanelData(resultsResponse) {
+                if (resultsResponse) {
+                    return resultsResponse.map((data) => {
+                        return {
+                            'address': data.address,
+                            'population': data.variables.population,
+                            'is_reference': data.variables.is_reference
+                        }
+                    });
+                }
+            }
+            getGraphicPanelData(resultsResponse) {
+                if (resultsResponse) {
+                    return resultsResponse.map((data) => {
+                        let indexes = {}
+                        for (let index in data.variables.indexes) {
+                            indexes[index] = data.variables.indexes[index]
+                        }
+                        return indexes
+                    });
+                }
+            }
+
+            getGraphicPanelDataLegend(resultsResponse) {
+                if (resultsResponse) {
+                    return resultsResponse.map((data, index) => {
+                        return (data.variables.is_reference) ? this.constants.refArea : `${this.constants.compArea} ${index}`
+                    })
+                }
+            }
+        }
+        window.customElements.define(DashboardApp.is, DashboardApp);
+    </script>
+</dom-module>

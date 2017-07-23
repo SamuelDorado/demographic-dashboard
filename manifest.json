@@ -1,0 +1,6 @@
+{
+  "name": "demographic-dashboard",
+  "short_name": "demographic-dashboard",
+  "start_url": "/",
+  "display": "standalone"
+}

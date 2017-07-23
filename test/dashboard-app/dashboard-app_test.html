@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>dashboard-app test</title>
+
+    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../../src/dashboard-app/dashboard-app.html">
+</head>
+
+<body>
+
+    <test-fixture id="basic-fixture">
+        <template>
+        <dashboard-app></dashboard-app>
+      </template>
+    </test-fixture>
+
+    <script>
+        suite('dashboard-app', function() {
+            var element, constants;
+            setup(function() {
+                element = fixture('basic-fixture');
+                constants = {
+                    "population": "Population",
+                    "refArea": "Reference area",
+                    "compArea": "Compared area",
+                    "indexLabels": {
+                        "population": "Poblacion",
+                        "unemployment": "Desempleo",
+                        "commercial_activity": "Actividad comercial",
+                        "wealth": "Riqueza",
+                        "traffic": "Trafico Peatonal",
+                        "foreigners": "Extranjeros",
+                        "dependency_rate": "Tasa de dependencia "
+                    }
+                };
+            });
+            test('instantiating the element with default properties works', function() {
+                expect(element.constants).to.deep.equal(constants);
+                var elementShadowRoot = element.shadowRoot;
+                var infoPanelElement = elementShadowRoot.querySelector('gb-info-panel');
+                expect(infoPanelElement.constants).to.deep.equal(constants);
+            });
+
+            test('data from server is binding correctly', function() {
+                // Create a test fixture
+                var mockObject = {
+                    "population": "5759",
+                    "is_reference": false
+                }
+                var elementShadowRoot = element.shadowRoot;
+                var ironAjax = elementShadowRoot.querySelector('iron-ajax');
+                ironAjax.lastResponse = mockObject;
+                expect(ironAjax.lastResponse).to.deep.equal(element.resultsResponse);
+            });
+            var data = [{
+                "address": "Calle Mar Adriático, 12, 28221 Majadahonda, Madrid, Spain",
+                "variables": {
+                    "population": 9084,
+                    "is_reference": true,
+                    "indexes": {
+                        "population": "3",
+                        "unemployment": "1",
+                        "commercial_activity": "6",
+                        "wealth": "7",
+                        "traffic": "4",
+                        "foreigners": "1",
+                        "dependency_rate": "2"
+                    }
+                }
+            }]
+            test('getInfoPanelData returns useful information for gbInfoPanel element', function() {
+                // Create a test fixture
+                var tobeReturnedData = [{
+                    "address": "Calle Mar Adriático, 12, 28221 Majadahonda, Madrid, Spain",
+                    "population": 9084,
+                    "is_reference": true
+                }];
+                expect(element.getInfoPanelData(data)).to.deep.equal(tobeReturnedData);
+            });
+
+            test('getGraphicPanelData returns useful information for gbGraphicPanel element', function() {
+                // Create a test fixture
+                var tobeReturnedData = [{
+                    "population": "3",
+                    "unemployment": "1",
+                    "commercial_activity": "6",
+                    "wealth": "7",
+                    "traffic": "4",
+                    "foreigners": "1",
+                    "dependency_rate": "2"
+                }];
+                expect(element.getGraphicPanelData(data)).to.deep.equal(tobeReturnedData);
+            });
+
+        });
+    </script>
+
+
+</body>
+
+</html>

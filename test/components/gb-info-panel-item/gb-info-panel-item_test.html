@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>gb-info-panel test</title>
+
+    <script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../gb-info-panel-item.html">
+</head>
+
+<body>
+    <test-fixture id="basic-fixture">
+        <template>
+            <gb-info-panel-item item-title="Testing Title"
+                        item-content="9999"
+                        sub-content="Testing Sub Content"
+                        under-content="Testing Under Content Info"></gb-info-panel-item>
+      </template>
+    </test-fixture>
+
+    <script>
+        suite('gb-info-panel-item', function() {
+
+            test('properties are binding correctly', function() {
+                var element = fixture('basic-fixture');
+                assert.equal(element.itemTitle, 'Testing Title')
+                assert.equal(element.itemContent, '9999')
+                assert.equal(element.subContent, 'Testing Sub Content')
+                assert.equal(element.underContent, 'Testing Under Content Info')
+            });
+
+            test('properties values are rendering correctly', function() {
+                // Create a test fixture
+                var element = fixture('basic-fixture');
+                var elementShadowRoot = element.shadowRoot;
+                var itemTitle = elementShadowRoot.querySelector('.title h1');
+                assert.equal(itemTitle.innerText, 'Testing Title'.toUpperCase())
+                var itemContent = elementShadowRoot.querySelector('.content span');
+                assert.equal(itemContent.innerText, '9999')
+                var subContent = elementShadowRoot.querySelector('.content p');
+                assert.equal(subContent.innerText, 'Testing Sub Content')
+                var underContent = elementShadowRoot.querySelector('.under-content span');
+                assert.equal(underContent.innerText, 'Testing Under Content Info')
+            });
+
+            test('properties values are rendering correctly', function() {
+                // Create a test fixture
+                var element = fixture('basic-fixture');
+                element.itemTitle = 'Different Title'
+                element.itemContent = '8888'
+                element.subContent = 'Different Sub Content'
+                element.underContent = 'Different Under Content Info'
+                var elementShadowRoot = element.shadowRoot;
+                var itemTitle = elementShadowRoot.querySelector('.title h1');
+                assert.equal(itemTitle.innerText, 'Different Title'.toUpperCase())
+                var itemContent = elementShadowRoot.querySelector('.content span');
+                assert.equal(itemContent.innerText, '8888')
+                var subContent = elementShadowRoot.querySelector('.content p');
+                assert.equal(subContent.innerText, 'Different Sub Content')
+                var underContent = elementShadowRoot.querySelector('.under-content span');
+                assert.equal(underContent.innerText, 'Different Under Content Info')
+            });
+
+
+
+        });
+    </script>
+
+</body>
+
+</html>

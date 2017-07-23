@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>gb-info-panel test</title>
+
+    <script src="../../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../../bower_components/web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../gb-info-panel.html">
+</head>
+
+<body>
+
+    <test-fixture id="basic-fixture">
+        <template>
+        <gb-info-panel></gb-info-panel>
+      </template>
+    </test-fixture>
+
+    <script>
+        suite('gb-info-panel', function() {
+            var element, constants;
+            setup(function() {
+                element = fixture('basic-fixture');
+                constants = {
+                    "population": "Population",
+                    "refArea": "Reference area",
+                    "compArea": "Compared area"
+                };
+                element.constants = constants;
+            });
+            test('computeTitle()  works as expected', function() {
+                assert.equal(element.computeTitle(true, 0), constants.refArea);
+                assert.equal(element.computeTitle(false, 4), constants.compArea + " " + 4);
+            })
+
+            test('computeClass() works as expected', function() {
+                assert.equal(element.computeClass(true, 0), 'ref-area');
+                assert.equal(element.computeClass(false, 4), 'comp-area-4');
+            })
+
+            test('renders a gbInfoPanlItem for each item on the data array', function(done) {
+                // Create a test fixture
+                var data = [{
+                    "is_reference": true
+                }, {
+                    "is_reference": false
+                }, {
+                    "is_reference": false
+                }];
+                element.data = data;
+                flush(function() {
+                    var listItems = element.shadowRoot.querySelectorAll('gb-info-panel-item');
+                    assert.equal(listItems.length, data.length);
+                    done();
+                });
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

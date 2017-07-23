@@ -1,0 +1,60 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../gb-radar-graph/gb-radar-graph.html">
+
+<dom-module id="gb-graph-panel">
+    <template>
+   <style>   
+        :host{
+            @apply(--layout-vertical);
+            background: #F6F6F6;
+            padding:1em;
+        }
+        .panel-title--container{
+            color:#1696A3;
+            width:100%;
+        }
+        .panel-title--container h1{
+            font-weight: normal;
+        }
+
+</style>
+        <div class="panel-title--container">
+            <h1>[[constants.genGraphComp]]</h1>
+        </div>
+        <gb-radar-graph data-legend="[[dataLegend]]"
+                        data="[[data]]"
+                        labels="[[constants.indexLabels]]"></gb-radar-graph>
+    </template>
+
+    <script>
+        /**
+         * `gb-graph-panel`
+         * 
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class GbGraphPanel extends Polymer.Element {
+            static get is() {
+                return 'gb-graph-panel';
+            }
+            static get properties() {
+                return {
+                    data: {
+                        type: Array
+                    },
+                    dataLegend: {
+                        type: Array
+                    },
+                    constants: {
+                        type: Object
+                    }
+                };
+            }
+        }
+
+        window.customElements.define(GbGraphPanel.is, GbGraphPanel);
+    </script>
+</dom-module>
