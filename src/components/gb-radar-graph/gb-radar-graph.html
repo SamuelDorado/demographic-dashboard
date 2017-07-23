@@ -50,7 +50,9 @@
     <script>
         /**
          * `gb-radar-graph`
-         * 
+         * Practically all the code from the D3 graphics comes from
+         *  https://github.com/alangrafu/radar-chart-d3 and http://bl.ocks.org/nbremer/6506614
+         * I only made some adjustments to fit the visual requirements
          *
          * @customElement
          * @polymer
@@ -66,8 +68,7 @@
                         type: Array,
                         value: () => {
                             return []
-                        },
-                        reflectToAttribute: true
+                        }
                     },
                     data: {
                         type: Array,
@@ -121,9 +122,9 @@
                 //Will expect that data is in %'s (from 0 to 1 numbers)
                 this.radarChartDraw(this.$.graph, this._computedGrpahData, mycfg);
 
-                ////////////////////////////////////////////
+
                 /////////// Initiate legend ////////////////
-                ////////////////////////////////////////////
+
 
                 var svg = d3.select(this.$.legendContainer)
                     .append('svg')
